@@ -1,0 +1,12 @@
+# for this database I used sqlite3
+# We´ll start by saving the file
+$ sqlite3 .data/mini_airbnb_query
+# the output sould be:
+SQLite version 3.11.0 2016-02-15 17:29:24
+Enter ".help" for usage hints.
+
+sqlite> .read mini_airbnb.sql
+# this part of the code opens our file
+
+# here we'll query for all the home with the price lower than $45 a night
+sqlite> 
