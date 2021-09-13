@@ -9,4 +9,49 @@ sqlite> .read mini_airbnb.sql
 # this part of the code opens our file
 
 # here we'll query for all the home with the price lower than $45 a night
-sqlite> 
+sqlite> SELECT * FROM homes WHERE price_per_night < 45;
+# output:
+2|234 South St|40||2020-10-29 19:03:41
+
+# here we are limiting the number of results to 2 and starting after the second result
+sqlite> SELECT * FROM homes LIMIT 2,2;
+# output:
+3|345 North St|50||2020-10-29 19:03:41
+# we only see 1 property because the other ones have already been listed
+
+# now we will try sorting by price
+sqlite> SELECT * FROM homes ORDER BY price_per_night;
+2|234 South St|40||2020-10-29 19:03:41
+3|345 North St|50||2020-10-29 19:03:41
+1|123 Main St|60||2020-10-29 19:03:41
+
+# here we will ask how many properties does Jane have
+sqlite> SELECT COUNT(*)
+   ...> FROM users_homes
+   ...> JOIN users
+   ...>   ON users.id = users_homes.user_id
+   ...> WHERE
+   ...>   users.name = "Jane"
+   ...>   AND users_homes.role = "OWNER";
+2
+
+# now we will find out how many visitors did one of the properties have
+sqlite> SELECT COUNT(*)
+   ...> FROM users_homes
+   ...> JOIN homes
+   ...>   ON homes.id = users_homes.home_id
+   ...> WHERE homes.address = "345 North St"
+   ...>   AND users_homes.role = "VISITOR";
+2
+
+# now we want to list all the visits of a sigles user
+sqlite> SELECT address, start, end
+   ...> FROM homes
+   ...> JOIN users_homes
+   ...>   ON users_homes.home_id = homes.id
+   ...> JOIN users
+   ...>   ON users_homes.user_id = users.id
+   ...> WHERE users.name = "John"
+   ...>   AND users_homes.role = "VISITOR";
+234 South St|2020-10-05 13:00:00|2020-10-07 13:00:00
+345 North St|2020-10-07 13:00:00|2020-10-09 13:00:00
